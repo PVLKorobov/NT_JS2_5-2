@@ -23,6 +23,7 @@ describe('successful character creation test', () => {
     })
 })
 
+
 describe('invalid character creation test', () => {
     test.each([
         ['N', 'Bowman', 'Name is too short'],
@@ -31,4 +32,30 @@ describe('invalid character creation test', () => {
     ])('should throw error with expected message', (name, type, expectedErrorMessage) => {
         expect( () => {createCharacter(name, type)} ).toThrow(expectedErrorMessage);
     })
+})
+
+
+test('should increase character level', () => {
+    let testChar = createCharacter('test', 'Bowman');
+    testChar.levelUp();
+    expect(testChar.level).toBe(2);
+})
+
+test('should throw health error on levelUp function', () => {
+    let testChar = createCharacter('test', 'Bowman');
+    testChar.damage(999);
+    expect( () => {testChar.levelUp()} ).toThrow('Invalid health value');
+})
+
+
+test('should damage character to expected amount of health', () => {
+    let testChar = createCharacter('test', 'Bowman');
+    testChar.damage(10);
+    expect(testChar.health).toBe(100 - 10 * (1 - testChar.defence / 100));
+})
+
+test('should throw health error on damage function', () => {
+    let testChar = createCharacter('test', 'Bowman');
+    testChar.damage(999);
+    expect( () => {testChar.damage(10)} ).toThrow('Invalid health value');
 })

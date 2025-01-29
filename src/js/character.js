@@ -18,6 +18,27 @@ class Character {
     }
 }
 
+Character.prototype.levelUp = function () {
+    if (this.health > 0) {
+        this.level += 1;
+        this.attack *= 1.2;
+        this.defence *= 1.2;
+        this.health = 100;
+    }
+    else {
+        throw new Error('Invalid health value');
+    }
+};
+
+Character.prototype.damage = function (points) {
+    if (this.health >= 0) {
+        this.health -= points * (1 - this.defence / 100);
+    }
+    else {
+        throw new Error('Invalid health value');
+    }
+}
+
 
 class Bowman extends Character {
     constructor(name) {
